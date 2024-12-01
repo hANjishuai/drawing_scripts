@@ -1,0 +1,291 @@
+---
+title: "B1 Projection"
+author: "Han"
+output: 
+  html.document:
+    toc: TRUE
+---
+## 初始化环境工程
+```{r setup,include=FALSE}
+#包库载入
+.libPaths("~/R/4.4.1/library/")
+
+#环境调试
+if (T) {
+  knitr::opts_chunk$set(
+	message = FALSE,
+	warning = FALSE,
+	include = FALSE
+)
+#运行，不显示结果
+  rm(list = ls())
+  gc()
+  write( "times", file = "../output/times.txt")
+  sink(file = "../output/times.txt",append = T);
+  Sys.time();sink()
+  options(future.globals.maxSize = 50000 * 1024^2)  # 设置为 1000 MB
+}
+
+#函数加载
+
+#环境变量加载
+source("./env_setting/000_constant_scRNA.R")
+constant_scRNA()
+load("../output/constant.RData")
+```
+
+## 处理rawdata
+```{r rawdata, echo=TRUE}
+source("./stepsOfpipeline/00_rawdatamerge.R")
+rawdataqc(rawdatadir <- rawdatadir,
+          projectname <- projectname,tissues <- "Blood")
+```
+
+## 质控
+```{r qc, echo=TRUE}
+source("./stepsOfpipeline/01_scRNA.QC.R")
+scRNA.qc(projectname = projectname, species =  species)
+```
+
+## 聚类
+```{r cluster, echo=TRUE}
+#分群聚类后还可得到level1的DEG
+source("./stepsOfpipeline/02_0_cluster.R")
+cluster_marker(projectname =  projectname)
+
+#寻找出既定清晰度下的分群marker，协助我们人工注释
+source("./stepsOfpipeline/03_0_cellmarkerplot.R")
+manual_marker_plot(projectname =projectname)
+```
+
+## 使用singleR进行自动注释看一下
+```{r autoAnnotation, echo=TRUE}
+# singleR 注释
+source("./stepsOfpipeline/04_0_cellanno.R")
+#这个函数最好自己进去，一步步修改运行
+cellanno(projectname = projectname,specie = "human" )
+cellanno.check(projectname=projectname,
+              newcluster = "../output/03.celltype/0.singleR_cellplot.csv")
+```
+ 这里我选的清晰度是0.5，如果清晰度过高，可能会导致分群过细，导致假阴性增加，没有获得足够多的B细胞亚群。如果清晰度过低，可能会导致假阳性增加，目标细胞不够纯。
+ 比对一下，差异基因文件（cluster.markers.csv）和分群文件(0.singleR_cellplot.csv)，发现B细胞命名的细胞囊括了B细胞和浆细胞，所以准备提取该亚群。
+
+## 提取目标亚群（我这里是B细胞和浆细胞）
+```{r subset, echo=TRUE}
+source("./stepsOfpipeline/05_0_subsetcell.R")
+subcell(projectname = projectname) 
+```
+这个B细胞亚群真的有点少啊，已经做好再来一次的准备了(果然被我说对了)：
+HC1_B  HC2_B  HC3_B DLE1_B DLE2_B DLE3_B DLE4_B SLE1_B SLE2_B SLE3_B 
+  1357   1239    773    548    791    660    377   2721    974    297 
+SLE4_B 
+  1140 
+
+## 目标亚群进行标准流程
+```{r subcell_pipeline, echo=TRUE}
+source("./stepsOfpipeline/10_0_subset.R")
+subcell.qc(species = "human")
+```
+
+## cloupe人工注释
+用得到的Bc的Rdata文件，转换成cloupe文件，进行人工注释,具体代码如下：
+```{r seurat2cloupe, eval=FALSE, include=FALSE}
+library(loupeR)
+library(Seurat)
+#生成loupe文件
+loupeR::setup(executable_path = "C:/Users/rpl/AppData/Local/R/win-library/4.3/loupeR/louper-windows-x64.exe")
+load("F:\\1.Bcell.cluster.Rdata")
+create_loupe_from_seurat(executable_path = "C:/Users/rpl/AppData/Local/R/win-library/4.3/loupeR/louper-windows-x64.exe",
+                         seuratdata,
+                         output_name = "Bcell.cloupe",force = T)
+#鉴于loupeR只有windows和mac两个版本，所以这一步请在上述两个系统操作
+#记得修改executable_path
+```
+
+## 亚群注释
+cloupe人工注释(我选的是sct_0.2的清晰度)以后，构建新的注释文件manual_level2.csv添录入manual_level2列，运行以下代码：
+```{r manual_level2, echo=TRUE}
+source("./stepsOfpipeline/10_1_subcellanno.R")
+subcellanno("../output/04.subcell/03.annotation")
+```
+在亚群注释完成后，我们可以看看各亚群细胞在各种疾病状态下的分布，从而观察一下，不同细胞亚群在数量上的表型：
+1、整个亚群的Umap图+marker图（总览亚群），
+2、分面Umap图+不同疾病状态下细胞堆叠图（总览随着疾病状态改变，各细胞亚群所占比的改变），
+3、不同疾病状态下所有样本来源的细胞堆叠图，以及统计分析散点图（看看细胞亚群在占比上面的具体差异）
+
+
+
+因为pyscenic，scRepertoire运行时间比较长(特别是那个该死的pyscenic，花了我一周的时间，还贼容易报错),所以得到亚群分群注释文件后，就可以在后台跑了
+## pyscenic（optional）
+step1:转换为loom文件
+方法一：
+```{python csv2loom, eval=FALSE, include=FALSE}
+#编辑脚本(已经编辑好了，直接运行)
+vim trans.py
+#输入以下内容
+import os, sys
+os.getcwd()
+os.listdir(os.getcwd()) 
+
+import loompy as lp;
+import numpy as np;
+import scanpy as sc;
+
+x=sc.read_csv("sce_exp.csv");#R中导出的表达矩阵
+row_attrs = {"Gene": np.array(x.var_names),};
+col_attrs = {"CellID": np.array(x.obs_names)};
+lp.create("sce.loom",x.X.transpose(),row_attrs,col_attrs)
+#在命令行运行
+python trans.py
+```
+方法二：不大奏效
+```{r seurat2loom, echo=TRUE, message=FALSE, warning=FALSE}
+library(Seurat)
+library(loomR)
+#dyn.load('/home/jifanghan/miniconda3/lib/libhdf5_hl.so.200.0.1')
+library(hdf5r)
+library(SCopeLoomR)
+load('../output/04.subcell/02.cluster/1.Bcell.cluster.Rdata')
+counts <- LayerData(seuratdata,assay = 'RNA',layer='counts')
+loom <- create(filename = "../output/04.subcell/04.pyscenic/scez.loom", 
+               data = counts, 
+               overwrite =TRUE)
+#涉及权限问题，如果使用上一个方法得到sce.loom,则在这里不能同名
+loom$close()
+rm(loom)
+```
+
+step2:正式pyscenic流程（后台运行）
+```{bash pyscenic, eval=FALSE, include=FALSE}
+#python = 3.8.10
+#Pyscenic = 0.12.1
+#numpy=1.19.5
+#pandas=1.3.5
+#numba = 0.56.4
+#这个配置可行，试了一个星期！！
+
+#! /bin/bash
+#=======================================================================================
+#                                   pySCENIC数据分析
+#=======================================================================================
+reference_path='/home/jifanghan/Documents/R_pipeline/reference/pyscenic/'
+TF_list=$reference_path"hs_hgnc_tfs.txt"
+motifs=$reference_path"motifs-v10nr_clust-nr.hgnc-m0.001-o0.0.tbl"
+feather=$reference_path"hg38__refseq-r80__10kb_up_and_down_tss.mc9nr.genes_vs_motifs.rankings.feather"
+
+#分析第一步：GRN---运行完得到sce.adj.tsv文件
+##这一步的目的
+#推断转录因子与提供的表达矩阵基因的共表达模块，基于grnboost2，R中时GENIE3
+pyscenic grn --num_workers 10 \
+--sparse \
+--method grnboost2 \
+--output sce.adj.tsv \
+sce.loom \
+$TF_list
+
+#pyscenic grn对输入文件格式要求严格，如果运行不来，改用arboreto_with_multiprocessing.py，参数一致
+
+#分析第二步：RcisTarget---运行完得到sce.regulons.csv文件
+#这一步的目的
+#进行TF-motif富集分析，识别直接靶标
+#得到转录因子(TF)与其对应的直接作用的靶点,称为regulon(每一个regulon是1个TF和其调控的靶基因)
+pyscenic ctx --num_workers 10 \
+--output sce.regulons.csv \
+--expression_mtx_fname sce.loom \
+--all_modules \
+--mask_dropouts \
+--mode "dask_multiprocessing" \
+--min_genes 10 \
+--annotations_fname $motifs \
+sce.adj.csv \
+$feather
+
+
+#分析第三步：AUCell---运行完得到sce_SCENIC.loom文件，即分析结果
+#这一步的目的
+#使用AUCell对每个细胞的每个regulon活性进行评分。
+pyscenic aucell --num_workers 3 \
+--output sce_SCENIC.loom \
+sce.loom \
+sce.regulons.csv
+```
+
+step3:pyscenic结果可视化
+```{r 可视化, eval=FALSE, include=FALSE}
+source('../src/stepsOfpipeline/figure_scripts.R')
+figure_drawing()
+```
+1、所有细胞亚群的转录因子谱（顺序如下）
+`tf_topn_heatmap.pdf`（总览各亚群转录因子谱）
+`rss_rank_plot.pdf`（展示特异性1）
+
+`TF_rss_droplot.pdf`（展示特异性2）
+`heatmap_TF.pdf`(展示转录因子表达情况1)
+`TF_express_Dotplot.pdf`(展示转录因子表达情况2)
+
+`TF_profile_condition.pdf`(展示转录因子在不同疾病状态下的表达差异)
+
+2、聚焦到B1细胞
+`special_TF_umap_withsymbol.pdf`
+`special_TF_umap.pdf`
+补充统计图(TCF7,GATA3)
+
+3、转录调控网络
+`circle_tf_netplot.pdf`
+
+## scRepertoire
+step1:得到初步分析文件：data_bcr.RData
+```{r scRepertoire, include=FALSE}
+#这个可能涉及数据清洗，还是进入函数运行代码吧
+source('./stepsOfpipeline/scRepertoire.R')
+runIR(input_path='../data/Blood_IR/',RE='\\d+_B$')
+```
+
+step2:对data_bcr.RData进行初步可视化
+```{r 可视化, eval=FALSE, include=FALSE}
+source('../src/stepsOfpipeline/figure_scripts.R')
+figure_drawing()
+```
+
+
+## 各B细胞亚群的转录图谱
+
+step1:B细胞亚群的差异分析
+```{r DEG, echo=TRUE}
+source("stepsOfpipeline/rna_profile.R")
+find_trans_Profile()
+```
+得到差异基因表格和各亚群前10的热图
+
+step2:通路富集注释
+首先查看一下，不同细胞类型之间通路的差异，即GO或者Kegg富集分析（有个问题，我必须说明，Go或者Kegg通路，如果仅仅是先将差异基因，分为上调和下调，然后分别作通路富集，这个时候，推测哪些通路是上调或者下调，其实不是很准确。因为你会遇见这种情况：相同的通路，在上调和下调的通路集中同时出现，这是为什么呢？因为这个通路有许多基因参与，但这些基因并不是一起上调或者下调，所以会出现这种情况，并且当基因网络发挥某种生物学功能时，需要一些基因表达下降，所以单靠转录组分析，有时很难说明这个通路究竟处于上调还是下调）：
+```{r GO, echo=TRUE}
+source("stepsOfpipeline/pathway_profile.R")
+find_pathway_Profile()
+```
+得到GO的条状图
+
+```{r GO, echo=TRUE}
+source("stepsOfpipeline/pathway_profile.R")
+find_pathway_Profile()
+```
+得到GSEA各图
+
+```{r GSVA, echo=TRUE}
+source("stepsOfpipeline/pathway_profile.R")
+find_pathway_Profile()
+```
+得到GSVA的热图
+
+## 各B细胞亚群的发育轨迹####
+实在是懒得配置环境了，docker是真的香！
+```{r}
+
+```
+
+
+
+
+
+
+

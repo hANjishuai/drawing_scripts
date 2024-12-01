@@ -1,0 +1,27 @@
+{
+    "id": "B3CC67F6",
+    "path": "/media/jifanghan/0e0412a6-28f6-4d32-b005-9e38a7098944/public/jifanghan/B1Project/src/stepsOfpipeline/monocleALL.R",
+    "project_path": "stepsOfpipeline/monocleALL.R",
+    "type": "r_source",
+    "hash": "0",
+    "contents": "",
+    "dirty": false,
+    "created": 1733060797109.0,
+    "source_on_save": false,
+    "relative_order": 5,
+    "properties": {
+        "tempName": "Untitled1",
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "23,22",
+        "scrollLine": "17"
+    },
+    "folds": "76|8|100|2|\n",
+    "lastKnownWriteTime": 1733063113,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1733063113189,
+    "read_only": false,
+    "read_only_alternatives": []
+}

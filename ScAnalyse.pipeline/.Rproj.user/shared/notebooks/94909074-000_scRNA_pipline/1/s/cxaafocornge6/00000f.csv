@@ -1,0 +1,877 @@
+"0","cluster_marker(projectname =  projectname)
+"
+"2","Loading required package: SeuratObject
+"
+"2","Loading required package: sp
+"
+"2","
+Attaching package: ‘SeuratObject’
+
+"
+"2","The following objects are masked from ‘package:base’:
+
+    intersect, t
+
+"
+"2","Registered S3 methods overwritten by 'htmltools':
+  method               from         
+  print.html           tools:rstudio
+  print.shiny.tag      tools:rstudio
+  print.shiny.tag.list tools:rstudio
+"
+"2","Registered S3 method overwritten by 'data.table':
+  method           from
+  print.data.table     
+"
+"2","Registered S3 method overwritten by 'htmlwidgets':
+  method           from         
+  print.htmlwidget tools:rstudio
+"
+"2","Loading required package: Rcpp
+"
+"2","
+Attaching package: ‘dplyr’
+
+"
+"2","The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+"
+"2","The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+"
+"2","Transposing data matrix
+"
+"2","Initializing state using k-means centroids initialization
+"
+"2","Harmony 1/10
+"
+"2","0%   10   20   30   40   50   60   70   80   90   100%
+"
+"2","[----|----|----|----|----|----|----|----|----|----|
+"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","|
+"
+"2","0%   10   20   30   40   50   60   70   80   90   100%
+"
+"2","[----|----|----|----|----|----|----|----|----|----|
+"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","|
+"
+"2","Harmony 2/10
+"
+"2","0%   10   20   30   40   50   60   70   80   90   100%
+"
+"2","[----|----|----|----|----|----|----|----|----|----|
+"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","|
+"
+"2","0%   10   20   30   40   50   60   70   80   90   100%
+"
+"2","[----|----|----|----|----|----|----|----|----|----|
+"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","|
+"
+"2","Harmony 3/10
+"
+"2","0%   10   20   30   40   50   60   70   80   90   100%
+"
+"2","[----|----|----|----|----|----|----|----|----|----|
+"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","|
+"
+"2","0%   10   20   30   40   50   60   70   80   90   100%
+"
+"2","[----|----|----|----|----|----|----|----|----|----|
+"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","|
+"
+"2","Harmony 4/10
+"
+"2","0%   10   20   30   40   50   60   70   80   90   100%
+"
+"2","[----|----|----|----|----|----|----|----|----|----|
+"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","|
+"
+"2","0%   10   20   30   40   50   60   70   80   90   100%
+"
+"2","[----|----|----|----|----|----|----|----|----|----|
+"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","|
+"
+"2","Harmony 5/10
+"
+"2","0%   10   20   30   40   50   60   70   80   90   100%
+"
+"2","[----|----|----|----|----|----|----|----|----|----|
+"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","|
+"
+"2","0%   10   20   30   40   50   60   70   80   90   100%
+"
+"2","[----|----|----|----|----|----|----|----|----|----|
+"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","|
+"
+"2","Harmony converged after 5 iterations
+"
+"2","Warning:"
+"2"," The default method for RunUMAP has changed from calling Python UMAP via reticulate to the R-native UWOT using the cosine metric
+To use Python UMAP via reticulate, set umap.method to 'umap-learn' and metric to 'correlation'
+This message will be shown once per session
+"
+"2","16:56:30 UMAP embedding parameters a = 0.9922 b = 1.112
+"
+"2","16:56:30 Read 77590 rows and found 13 numeric columns
+"
+"2","16:56:30 Using Annoy for neighbor search, n_neighbors = 30
+"
+"2","16:56:30 Building Annoy index with metric = cosine, n_trees = 50
+"
+"2","0%   10   20   30   40   50   60   70   80   90   100%
+"
+"2","[----|----|----|----|----|----|----|----|----|----|
+"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","|
+"
+"2","16:56:38 Writing NN index file to temp file /tmp/RtmpRfmQZg/file15054f76dd15
+"
+"2","16:56:39 Searching Annoy index using 10 threads, search_k = 3000
+"
+"2","16:56:42 Annoy recall = 100%
+"
+"2","16:56:43 Commencing smooth kNN distance calibration using 10 threads"
+"2"," with target n_neighbors = 30
+"
+"2","16:56:45 Initializing from normalized Laplacian + noise (using RSpectra)
+"
+"2","16:56:50 Commencing optimization for 200 epochs, with 3260500 positive edges
+"
+"2","Using method '"
+"2","umap"
+"2","'"
+"2","
+"
+"2","0%   10   20   30   40   50   60   70   80   90   100%
+"
+"2","[----|----|----|----|----|----|----|----|----|----|
+"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","*"
+"2","|
+"
+"2","16:57:21 Optimization finished
+"
+"2","Computing nearest neighbor graph
+"
+"2","Computing SNN
+"
+"1","Modularity Optimizer version 1.3.0 by Ludo Waltman and Nees Jan van Eck
+
+Number of nodes: 77590
+Number of edges: 2428267
+
+Running Louvain algorithm...
+Maximum modularity in 10 random starts: 0.9723
+Number of communities: 10
+Elapsed time: 46 seconds
+"
+"1","Modularity Optimizer version 1.3.0 by Ludo Waltman and Nees Jan van Eck
+
+Number of nodes: 77590
+Number of edges: 2428267
+
+Running Louvain algorithm...
+Maximum modularity in 10 random starts: 0.9598
+Number of communities: 13
+Elapsed time: 40 seconds
+"
+"1","Modularity Optimizer version 1.3.0 by Ludo Waltman and Nees Jan van Eck
+
+Number of nodes: 77590
+Number of edges: 2428267
+
+Running Louvain algorithm...
+Maximum modularity in 10 random starts: 0.9481
+Number of communities: 16
+Elapsed time: 44 seconds
+"
+"1","Modularity Optimizer version 1.3.0 by Ludo Waltman and Nees Jan van Eck
+
+Number of nodes: 77590
+Number of edges: 2428267
+
+Running Louvain algorithm...
+Maximum modularity in 10 random starts: 0.9383
+Number of communities: 19
+Elapsed time: 36 seconds
+"
+"1","Modularity Optimizer version 1.3.0 by Ludo Waltman and Nees Jan van Eck
+
+Number of nodes: 77590
+Number of edges: 2428267
+
+Running Louvain algorithm...
+Maximum modularity in 10 random starts: 0.9299
+Number of communities: 22
+Elapsed time: 34 seconds
+"
+"1","Modularity Optimizer version 1.3.0 by Ludo Waltman and Nees Jan van Eck
+
+Number of nodes: 77590
+Number of edges: 2428267
+
+Running Louvain algorithm...
+Maximum modularity in 10 random starts: 0.9218
+Number of communities: 22
+Elapsed time: 66 seconds
+"
+"1","Modularity Optimizer version 1.3.0 by Ludo Waltman and Nees Jan van Eck
+
+Number of nodes: 77590
+Number of edges: 2428267
+
+Running Louvain algorithm...
+Maximum modularity in 10 random starts: 0.9147
+Number of communities: 24
+Elapsed time: 37 seconds
+"
+"1","Modularity Optimizer version 1.3.0 by Ludo Waltman and Nees Jan van Eck
+
+Number of nodes: 77590
+Number of edges: 2428267
+
+Running Louvain algorithm...
+Maximum modularity in 10 random starts: 0.9080
+Number of communities: 26
+Elapsed time: 38 seconds
+"
+"1","Modularity Optimizer version 1.3.0 by Ludo Waltman and Nees Jan van Eck
+
+Number of nodes: 77590
+Number of edges: 2428267
+
+Running Louvain algorithm...
+Maximum modularity in 10 random starts: 0.9027
+Number of communities: 29
+Elapsed time: 33 seconds
+"
+"1","Modularity Optimizer version 1.3.0 by Ludo Waltman and Nees Jan van Eck
+
+Number of nodes: 77590
+Number of edges: 2428267
+
+Running Louvain algorithm...
+Maximum modularity in 10 random starts: 0.8967
+Number of communities: 29
+Elapsed time: 34 seconds
+"
+"2","When using repel, set xnudge and ynudge to 0 for optimal results
+"
+"2","Warning:"
+"2"," ggrepel: 1 unlabeled data points (too many overlaps). Consider increasing max.overlaps
+"
+"2","
+"

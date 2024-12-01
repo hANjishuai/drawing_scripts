@@ -1,0 +1,27 @@
+{
+    "id": "AEFF83A3",
+    "path": "/media/jifanghan/0e0412a6-28f6-4d32-b005-9e38a7098944/public/jifanghan/B1Project/src/stepsOfpipeline/rna_profile.R",
+    "project_path": "stepsOfpipeline/rna_profile.R",
+    "type": "r_source",
+    "hash": "0",
+    "contents": "",
+    "dirty": false,
+    "created": 1731903365636.0,
+    "source_on_save": false,
+    "relative_order": 2,
+    "properties": {
+        "tempName": "Untitled1",
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "1,22",
+        "scrollLine": "0"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1731636112,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1731636112,
+    "read_only": false,
+    "read_only_alternatives": []
+}

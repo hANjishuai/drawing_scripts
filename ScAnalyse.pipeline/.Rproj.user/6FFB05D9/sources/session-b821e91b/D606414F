@@ -1,0 +1,26 @@
+{
+    "id": "D606414F",
+    "path": "/media/jifanghan/0e0412a6-28f6-4d32-b005-9e38a7098944/public/jifanghan/B1Project/src/stepsOfpipeline/pathway_profile.R",
+    "project_path": "stepsOfpipeline/pathway_profile.R",
+    "type": "r_source",
+    "hash": "0",
+    "contents": "",
+    "dirty": false,
+    "created": 1732866326797.0,
+    "source_on_save": false,
+    "relative_order": 3,
+    "properties": {
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "308,97",
+        "scrollLine": "300"
+    },
+    "folds": "82|82|101|2|\n130|77|141|0|\n145|32|150|2|\n184|66|186|2|\n220|35|234|28|\n351|6|359|8|\n",
+    "lastKnownWriteTime": 1733060075,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1733061931111,
+    "read_only": false,
+    "read_only_alternatives": []
+}

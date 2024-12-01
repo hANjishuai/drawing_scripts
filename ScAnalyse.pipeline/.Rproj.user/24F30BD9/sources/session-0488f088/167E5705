@@ -1,0 +1,28 @@
+{
+    "id": "167E5705",
+    "path": "/media/jifanghan/0e0412a6-28f6-4d32-b005-9e38a7098944/public/jifanghan/B1Project/src/000_scRNA_pipline.Rmd",
+    "project_path": "000_scRNA_pipline.Rmd",
+    "type": "r_markdown",
+    "hash": "0",
+    "contents": "",
+    "dirty": false,
+    "created": 1730858688080.0,
+    "source_on_save": false,
+    "relative_order": 1,
+    "properties": {
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "255,0",
+        "scrollLine": "0",
+        "last_setup_crc32": "",
+        "docOutlineVisible": "0"
+    },
+    "folds": "44|20|47|0|\n50|25|58|0|\n61|32|68|0|\n72|22|82|0|\n84|34|87|0|\n91|47|102|0|\n104|7|117|87|\n118|21|234|0|\n121|47|139|0|\n158|45|210|0|\n235|15|249|0|\n",
+    "lastKnownWriteTime": 1731829942,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1732076714187,
+    "read_only": false,
+    "read_only_alternatives": []
+}

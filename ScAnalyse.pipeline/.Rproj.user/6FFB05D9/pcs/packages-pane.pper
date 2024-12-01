@@ -1,0 +1,7 @@
+{
+    "installOptions": {
+        "installFromRepository": false,
+        "libraryPath": "/home/jifanghan/R/4.4.1/library",
+        "installDependencies": true
+    }
+}

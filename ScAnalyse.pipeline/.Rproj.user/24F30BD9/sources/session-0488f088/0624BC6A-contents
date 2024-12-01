@@ -1,0 +1,97 @@
+#2.通路富集注释####
+find_pathway_Profile <- function(){
+  if (!dir.exists("../output/04.subcell/07.enrichment")) {
+    dir.create("../output/04.subcell/07.enrichment")}
+  
+  #A:Env_setting 
+  log2FC_cutoff = log2(1)
+  pvalue_cutoff = 0.05
+  padj_cutoff = 0.05
+  #B:所需包以及函数载入
+  options(stringsAsFactors = F) 
+  library(clusterProfiler)
+  #BiocManager::install("clusterProfiler")
+  library(enrichplot)
+  library(tidyverse)
+  library(org.Hs.eg.db)
+  #BiocManager::install("org.Hs.eg.db")
+  #library(org.Mm.eg.db)
+  library(DOSE)
+  library(pathview)
+  library(Seurat)
+  #library(GSVA)
+  #这个GSVA，我可以在终端进行，具体步骤如下（因为我有这些依赖库，只是不在依赖路径里面）：
+  #conda activate Rstudio-server
+  #export PATH=$PATH:/home/jifanghan/miniconda3/envs/Rstudio-server/lib/
+  #export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/jifanghan/miniconda3/envs/Rstudio-server/lib/
+  #R
+  #Sys.getenv()
+  #.libPaths('~/R/4.4.1/library/')
+  #library(GSVA)
+  
+  #也可以在Rstudio中实现,但不起作用
+  #PATH <- Sys.getenv('PATH')
+  #LD_LIBRARY_PATH <- Sys.getenv('LD_LIBRARY_PATH')
+  #Sys.setenv(PATH=paste0(PATH,':/home/jifanghan/miniconda3/envs/Rstudio-server/lib'))
+  #Sys.setenv(LD_LIBRARY_PATH=paste0(LD_LIBRARY_PATH,':/home/jifanghan/miniconda3/envs/Rstudio-server/lib'))
+  
+  # library(tidyverse)
+  library(org.Hs.eg.db)
+  #对针对基因集进行富集分析
+  trsymbol <- function(genelist,OrgDb="org.Hs.eg.db",organism  = "hsa",ont="ALL"){
+    gene_entrez <- as.character(na.omit(bitr(genelist, #数据集
+                                             fromType="SYMBOL", #输入格式
+                                             toType="ENTREZID", # 转为ENTERZID格式
+                                             OrgDb=OrgDb)[,2])) #"org.Hs.eg.db" "org.Mm.eg.db"
+    kegg_enrich_results <- enrichKEGG(gene = gene_entrez,
+                                      organism  = organism, #物种人类 hsa 小鼠mmu
+                                      pvalueCutoff = 0.05,
+                                      qvalueCutoff = 0.2)
+    kegg_enrich_results <- DOSE::setReadable(kegg_enrich_results, 
+                                             OrgDb=OrgDb, 
+                                             keyType='ENTREZID')#ENTREZID to gene Symbol
+    go_enrich_results <- enrichGO(gene = gene_entrez,
+                                  OrgDb = OrgDb,
+                                  ont   = ont  ,     #One of "BP", "MF"  "CC"  "ALL" 
+                                  pvalueCutoff  = 0.05,
+                                  qvalueCutoff  = 0.2,
+                                  readable      = TRUE)
+    save(kegg_enrich_results,go_enrich_results,file = "../output/04.subcell/07.enrichment/enrichment_results_temp.Rdata")
+  }
+  #C:正式pipline
+  #首先先进行Go或者Kegg分析
+  Deg_df <- read_csv('../output/04.subcell/06.DEG/Bcell/Bcell_marker.csv') %>% 
+    column_to_rownames('...1')
+  need_DEG <- Deg_df[,c(2,5:7)]
+  need_DEG <- need_DEG[with(need_DEG,
+                            avg_log2FC>log2FC_cutoff & 
+                              p_val_adj < pvalue_cutoff),]
+  path_list <- aggregate(need_DEG$gene,by=list(need_DEG$cluster),function(x){
+    genelist <- x
+    if (length(genelist) >= 10) {
+      trsymbol(genelist,ont = "BP")
+      enrich_res <- load("../output/04.subcell/07.enrichment/enrichment_results_temp.Rdata")
+      go_results<- go_enrich_results@result
+      kegg_results <- kegg_enrich_results@result
+      return(list(go_results,kegg_results))
+#      write.csv(go_results,file = paste0("../output/04.subcell/07.enrichment/path",Name,"_go_up.csv"))
+#      write.csv(kegg_results,file=paste0("../output/04.subcell/07.enrichment/path",Name,"_kegg_up.csv"))
+    }
+})
+  path_list2 <- lapply(path_list$x,function(x){print(x)})
+  names(path_list2) <- path_list$Group.1
+  
+  for (i in names(path_list2)) {
+    go_results <-  path_list2[[i]][[1]]
+    kegg_results <- path_list2[[i]][[2]]
+    write.csv(go_results,file = paste0("../output/04.subcell/07.enrichment/",i,"_go_up.csv"))
+    write.csv(kegg_results,file=paste0("../output/04.subcell/07.enrichment/",i,"_kegg_up.csv"))
+  }
+  #接下来挑选符合你生物学背景的通路吧（还是觉得很麻烦，自己挑5个左右吧）
+  #如果你很想看看通路是升高还是降低，作条形码图，那接下来使用GSEA吧
+  #我想偷懒，直接在挑选完通路后，用GSVA显示转录谱。
+  
+  
+  
+  
+}
